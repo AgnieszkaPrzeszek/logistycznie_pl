@@ -1,5 +1,6 @@
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
+  output   = "/app/generated/prisma-client"
 }
 
 datasource db {
@@ -18,12 +19,12 @@ model User {
     verified DateTime?
 
     provider   String?
-    providerId String?
+    provider_id String?
 
     verificationCode VerificationCode?
 
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+    created_at DateTime @default(now())
+    updated_at DateTime @updatedAt
 }
 
 enum UserRole {
@@ -34,12 +35,12 @@ enum UserRole {
 model VerificationCode {
     id Int @id @default(autoincrement())
 
-    user   User @relation(fields: [userId], references: [id])
-    userId Int  @unique
+    user   User @relation(fields: [user_id], references: [id])
+    user_id Int  @unique
 
     code String
 
-    createdAt DateTime @default(now())
+    created_at DateTime @default(now())
 
-    @@unique([userId, code])
+    @@unique([user_id, code])
 }
