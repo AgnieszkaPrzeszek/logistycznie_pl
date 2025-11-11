@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output   = "/app/generated/prisma-client"
+   output   = "/app/generated/prisma-client"
 }
 
 datasource db {
@@ -23,9 +23,76 @@ model User {
 
     verificationCode VerificationCode?
 
+    warehouses Warehouse[]
+    coworkings Coworking[]
+
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
 }
+
+model Warehouse {
+  id                Int       @id @default(autoincrement())
+  title             String
+  description       String
+  offer_type        String
+  city              String
+  province          String
+  lat               Float
+  lng               Float
+  surface           Float
+  grade             String
+  type              String
+  height            Float
+  ramp_count        Int
+  ramp_level_zero   Boolean
+  available_from    DateTime
+  office_space      Boolean
+  social_facilities Boolean
+  parking_truck     Boolean
+  parking_cars      Boolean
+  media             Boolean
+  heating           String
+  flooring          String
+  alarm             Boolean
+  security          Boolean
+  monitoring        Boolean
+  fence             Boolean
+  access_system     Boolean
+  storage_systems   String[]
+  function_value    String[]
+
+
+  created_by   Int
+  createdBy    User    @relation(fields: [created_by], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+model Coworking {
+  id                Int       @id @default(autoincrement())
+  title             String
+  description       String
+  offer_type        String
+  city              String
+  province          String
+  lat               Float
+  lng               Float
+  parking           Boolean
+  pet_friendly      Boolean
+  relax_room        Boolean
+  showers           Boolean
+  bike_parking      Boolean
+  service           Boolean
+  security          Boolean
+
+  created_by   Int
+  createdBy    User    @relation(fields: [created_by], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
 
 enum UserRole {
     USER
