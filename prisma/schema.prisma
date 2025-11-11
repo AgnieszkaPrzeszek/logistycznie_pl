@@ -1,0 +1,45 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("POSTGRES_URL") // uses connection pooling
+}
+
+model User {
+    id Int @id @default(autoincrement())
+
+    first_name String
+    last_name String
+    email    String    @unique
+    password String
+    role     UserRole  @default(USER)
+    verified DateTime?
+
+    provider   String?
+    providerId String?
+
+    verificationCode VerificationCode?
+
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+}
+
+enum UserRole {
+    USER
+    ADMIN
+}
+
+model VerificationCode {
+    id Int @id @default(autoincrement())
+
+    user   User @relation(fields: [userId], references: [id])
+    userId Int  @unique
+
+    code String
+
+    createdAt DateTime @default(now())
+
+    @@unique([userId, code])
+}
