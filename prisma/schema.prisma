@@ -1,6 +1,5 @@
 generator client {
   provider = "prisma-client-js"
-   output   = "/app/generated/prisma-client"
 }
 
 datasource db {
@@ -25,9 +24,21 @@ model User {
 
     warehouses Warehouse[]
     coworkings Coworking[]
+    passwordResetTokens PasswordResetToken[]
 
     created_at DateTime @default(now())
     updated_at DateTime @updatedAt
+}
+
+model PasswordResetToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  user_id    Int
+  expires   DateTime
+
+  user      User     @relation(fields: [user_id], references: [id], onDelete: Cascade)
+
+  created_at DateTime @default(now())
 }
 
 model Warehouse {
